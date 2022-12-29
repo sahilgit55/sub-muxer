@@ -22,7 +22,6 @@ async def help_user(bot, update):
         await bot.send_message(
             update.chat.id,
             Chat.HELP_TEXT,
-            parse_mode = 'html',
             disable_web_page_preview = True,
             reply_to_message_id = update.id
         )
@@ -37,6 +36,7 @@ async def help_user(bot, update):
 
 @pyrogram.Client.on_message(pyrogram.filters.command(['start']))
 async def start(bot, update):
+    print(update.from_user.id)
 
     if str(update.from_user.id) not in Config.ALLOWED_USERS:
         return await bot.send_message(

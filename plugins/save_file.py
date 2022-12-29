@@ -48,13 +48,13 @@ async def save_doc(client, message):
         return client.edit_message_text(
             text = 'Downloading Failed!',
             chat_id = chat_id,
-            id = downloading.id
+            message_id = downloading.id
         )
 
     await client.edit_message_text(
         text = Chat.DOWNLOAD_SUCCESS.format(round(time.time()-start_time)),
         chat_id = chat_id,
-        id = downloading.id
+        message_id = downloading.id
     )
 
     tg_filename = os.path.basename(download_location)
@@ -83,7 +83,7 @@ async def save_doc(client, message):
         await client.edit_message_text(
             text = text,
             chat_id = chat_id,
-            id = downloading.id
+            message_id = downloading.id
         )
 
     elif ext in ['mp4','mkv']:
@@ -96,7 +96,7 @@ async def save_doc(client, message):
         await client.edit_message_text(
             text = text,
             chat_id = chat_id,
-            id = downloading.id
+            message_id = downloading.id
         )
 
     else:
@@ -104,7 +104,7 @@ async def save_doc(client, message):
         await client.edit_message_text(
             text = text,
             chat_id = chat_id,
-            id = downloading.id
+            message_id = downloading.id
         )
         os.remove(Config.DOWNLOAD_DIR+'/'+tg_filename)
 
@@ -125,18 +125,18 @@ async def save_video(client, message):
             start_time
             )
         )
-
+    print(downloading)
     if download_location is None:
         return client.edit_message_text(
             text = 'Downloading Failed!',
             chat_id = chat_id,
-            id = downloading.id
+            message_id = downloading.id
         )
 
     await client.edit_message_text(
         text = Chat.DOWNLOAD_SUCCESS.format(round(time.time()-start_time)),
         chat_id = chat_id,
-        id = downloading.id
+        message_id = downloading.id
     )
 
     tg_filename = os.path.basename(download_location)
@@ -162,7 +162,7 @@ async def save_video(client, message):
     await client.edit_message_text(
             text = text,
             chat_id = chat_id,
-            id = downloading.id
+            message_id = downloading.id
             )
 
 

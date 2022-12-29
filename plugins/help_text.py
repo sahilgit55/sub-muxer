@@ -13,12 +13,13 @@ import pyrogram
 from chat import Chat
 from config import Config
 logging.getLogger('pyrogram').setLevel(logging.WARNING)
+Auth_Chat = int(Config.Auth_Chat)
 
 
 @pyrogram.Client.on_message(pyrogram.filters.command(['help']))
 async def help_user(bot, update):
 
-    if str(update.from_user.id) in Config.ALLOWED_USERS:
+    if update.chat.id==Auth_Chat:
         await bot.send_message(
             update.chat.id,
             Chat.HELP_TEXT,
@@ -38,7 +39,7 @@ async def help_user(bot, update):
 async def start(bot, update):
     print(update.from_user.id)
 
-    if str(update.from_user.id) not in Config.ALLOWED_USERS:
+    if update.chat.id!=Auth_Chat:
         return await bot.send_message(
             update.chat.id,
             Chat.NO_AUTH_USER,

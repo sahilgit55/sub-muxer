@@ -5,22 +5,23 @@ from helper_func.mux import softmux_vid, hardmux_vid, softremove_vid
 from config import Config
 import time
 import os
+Auth_Chat = int(Config.Auth_Chat)
 
 db = Db()
 
 async def _check_user(filt, c, m):
-    chat_id = str(m.from_user.id)
-    if chat_id in Config.ALLOWED_USERS:
+    chat_id = m.chat.id
+    if chat_id==Auth_Chat:
         return True
     else :
         return False
 
 check_user = filters.create(_check_user)
 
-@Client.on_message(filters.command('softmux') & check_user & filters.private)
+@Client.on_message(filters.command('softmux') & check_user)
 async def softmux(client, message):
 
-    chat_id = message.from_user.id
+    chat_id = message.chat.id
     og_vid_filename = db.get_vid_filename(chat_id)
     og_sub_filename = db.get_sub_filename(chat_id)
     text = ''
@@ -73,10 +74,10 @@ async def softmux(client, message):
     db.erase(chat_id)
 
 
-@Client.on_message(filters.command('hardmux') & check_user & filters.private)
+@Client.on_message(filters.command('hardmux') & check_user)
 async def hardmux(client, message):
     
-    chat_id = message.from_user.id
+    chat_id = message.chat.id
     og_vid_filename = db.get_vid_filename(chat_id)
     og_sub_filename = db.get_sub_filename(chat_id)
     text = ''
@@ -128,10 +129,10 @@ async def hardmux(client, message):
     db.erase(chat_id)
 
 
-@Client.on_message(filters.command('softremove') & check_user & filters.private)
+@Client.on_message(filters.command('softremove') & check_user)
 async def softremove(client, message):
 
-    chat_id = message.from_user.id
+    chat_id = message.chat.id
     og_vid_filename = db.get_vid_filename(chat_id)
     og_sub_filename = db.get_sub_filename(chat_id)
     text = ''

@@ -15,22 +15,23 @@ from helper_func.dbhelper import Database as Db
 import re
 import requests
 from urllib.parse import quote, unquote
+Auth_Chat = int(Config.Auth_Chat)
 
 db = Db()
 
 async def _check_user(filt, c, m):
-    chat_id = str(m.from_user.id)
-    if chat_id in Config.ALLOWED_USERS:
+    chat_id = m.chat.id
+    if chat_id==Auth_Chat:
         return True
     else :
         return False
 
 check_user = filters.create(_check_user)
 
-@Client.on_message(filters.document & check_user & filters.private)
+@Client.on_message(filters.document & check_user)
 async def save_doc(client, message):
 
-    chat_id = message.from_user.id
+    chat_id = message.chat.id
     start_time = time.time()
     downloading = await client.send_message(chat_id, 'Downloading your File!')
     download_location = await client.download_media(
@@ -109,10 +110,10 @@ async def save_doc(client, message):
         os.remove(Config.DOWNLOAD_DIR+'/'+tg_filename)
 
 
-@Client.on_message(filters.video & check_user & filters.private)
+@Client.on_message(filters.video & check_user)
 async def save_video(client, message):
 
-    chat_id = message.from_user.id
+    chat_id = message.chat.id
     start_time = time.time()
     downloading = await client.send_message(chat_id, 'Downloading your File!')
     download_location = await client.download_media(
@@ -168,7 +169,7 @@ async def save_video(client, message):
 @Client.on_message(filters.text & filters.regex('^http') & check_user)
 async def save_url(client, message):
 
-    chat_id = message.from_user.id
+    chat_id = message.chat.id
     save_filename = None
 
     if "|" in message.text:

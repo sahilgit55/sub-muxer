@@ -17,6 +17,8 @@ else:
 from helper_func.dbhelper import Database as Db
 db = Db().setup()
 
+Session_String = Config.Session_String
+
 import pyrogram
 logging.getLogger('pyrogram').setLevel(logging.WARNING)
 
@@ -27,12 +29,19 @@ if __name__ == '__main__':
         os.mkdir(Config.DOWNLOAD_DIR)
 
     plugins = dict(root='plugins')
-
-    app = pyrogram.Client(
-        'Subtitle Muxer',
-        bot_token = Config.BOT_TOKEN,
+    if Session_String:
+        app = pyrogram.Client(
+        session_string = Session_String,
         api_id = Config.APP_ID,
         api_hash = Config.API_HASH,
         plugins = plugins
     )
+    else:
+        app = pyrogram.Client(
+            'Subtitle Muxer',
+            bot_token = Config.BOT_TOKEN,
+            api_id = Config.APP_ID,
+            api_hash = Config.API_HASH,
+            plugins = plugins
+        )
     app.run()

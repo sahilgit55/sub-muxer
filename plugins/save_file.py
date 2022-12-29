@@ -125,7 +125,6 @@ async def save_video(client, message):
             start_time
             )
         )
-    print(downloading)
     if download_location is None:
         return client.edit_message_text(
             text = 'Downloading Failed!',

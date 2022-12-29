@@ -1,6 +1,9 @@
 FROM python:3.9
 
 
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt -qq update && apt -qq install -y ffmpeg
 COPY . /app
 WORKDIR /app
 RUN chmod 777 /app

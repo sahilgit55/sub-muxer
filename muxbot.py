@@ -31,6 +31,7 @@ if __name__ == '__main__':
     plugins = dict(root='plugins')
     if Session_String:
         app = pyrogram.Client(
+        name = "Subtitle Muxer",
         session_string = Session_String,
         api_id = Config.APP_ID,
         api_hash = Config.API_HASH,
